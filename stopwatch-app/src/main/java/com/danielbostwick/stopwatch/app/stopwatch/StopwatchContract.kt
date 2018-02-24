@@ -3,8 +3,10 @@ package com.danielbostwick.stopwatch.app.stopwatch
 import com.danielbostwick.stopwatch.app.MvpPresenter
 import com.danielbostwick.stopwatch.app.MvpView
 
-interface StopwatchContract {
-    interface Presenter : MvpPresenter {
+interface StopwatchContract
+{
+    interface Presenter: MvpPresenter
+    {
         fun onStopwatchStartClicked()
         fun onStopwatchPauseClicked()
         fun onStopwatchResetClicked()
@@ -14,7 +16,8 @@ interface StopwatchContract {
         fun onPause()
     }
 
-    interface View : MvpView<Presenter> {
+    interface View: MvpView<Presenter>
+    {
         fun showStartResetButtons()
         fun showPauseButton()
     }

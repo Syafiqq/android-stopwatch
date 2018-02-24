@@ -8,27 +8,31 @@ import org.joda.time.Duration
 import org.joda.time.Interval
 
 
-class DefaultStopwatchService : StopwatchService {
+class DefaultStopwatchService: StopwatchService
+{
     override fun create() = Stopwatch(PAUSED, DateTime.now(), Duration.ZERO)
 
-    override fun start(stopwatch: Stopwatch, startedAt: DateTime) = when (stopwatch.state) {
-        PAUSED -> Stopwatch(STARTED, DateTime.now(), stopwatch.offset)
+    override fun start(stopwatch: Stopwatch, startedAt: DateTime) = when (stopwatch.state)
+    {
+        PAUSED  -> Stopwatch(STARTED, DateTime.now(), stopwatch.offset)
         STARTED -> stopwatch
     }
 
-    override fun pause(stopwatch: Stopwatch, pausedAt: DateTime) = when (stopwatch.state) {
-        PAUSED -> stopwatch
+    override fun pause(stopwatch: Stopwatch, pausedAt: DateTime) = when (stopwatch.state)
+    {
+        PAUSED  -> stopwatch
         STARTED -> Stopwatch(PAUSED, DateTime.now(),
-            newOffset(stopwatch.offset, stopwatch.startedAt, pausedAt))
+                newOffset(stopwatch.offset, stopwatch.startedAt, pausedAt))
     }
 
     override fun reset(stopwatch: Stopwatch) = create()
 
-    override fun timeElapsed(stopwatch: Stopwatch, now: DateTime): Duration = when (stopwatch.state) {
-        PAUSED -> stopwatch.offset
+    override fun timeElapsed(stopwatch: Stopwatch, now: DateTime): Duration = when (stopwatch.state)
+    {
+        PAUSED  -> stopwatch.offset
         STARTED -> stopwatch.offset.plus(Interval(stopwatch.startedAt, now).toDuration())
     }
 
     private fun newOffset(existingOffset: Duration, startedAt: DateTime, pausedAt: DateTime) =
-        existingOffset.plus(Interval(startedAt, pausedAt).toDuration())
+            existingOffset.plus(Interval(startedAt, pausedAt).toDuration())
 }

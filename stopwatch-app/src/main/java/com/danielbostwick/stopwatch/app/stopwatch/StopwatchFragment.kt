@@ -17,7 +17,8 @@ import com.danielbostwick.stopwatch.core.service.StopwatchService
 import java.util.Timer
 import java.util.TimerTask
 
-class StopwatchFragment : BaseFragment(), StopwatchContract.View {
+class StopwatchFragment: BaseFragment(), StopwatchContract.View
+{
     private val TAG = StopwatchFragment::class.java.simpleName
     private val UPDATE_DELAY: Long = 100
 
@@ -25,33 +26,41 @@ class StopwatchFragment : BaseFragment(), StopwatchContract.View {
     private val stopwatchService = StopwatchApplication.instance.stopwatchService
     private lateinit var updateTimer: Timer
 
-    @BindView(R.id.fragment_stopwatch_start) lateinit var startButton: Button
-    @BindView(R.id.fragment_stopwatch_reset) lateinit var resetButton: Button
-    @BindView(R.id.fragment_stopwatch_pause) lateinit var pauseButton: Button
-    @BindView(R.id.fragment_stopwatch_time) lateinit var timeElapsedText: TextView
-    @BindView(R.id.fragment_stopwatch_start_reset_container) lateinit var startResetContainer: View
-    @BindView(R.id.fragment_stopwatch_pause_container) lateinit var pauseContainer: View
+    @BindView(R.id.fragment_stopwatch_start)
+    lateinit var startButton: Button
+    @BindView(R.id.fragment_stopwatch_reset)
+    lateinit var resetButton: Button
+    @BindView(R.id.fragment_stopwatch_pause)
+    lateinit var pauseButton: Button
+    @BindView(R.id.fragment_stopwatch_time)
+    lateinit var timeElapsedText: TextView
+    @BindView(R.id.fragment_stopwatch_start_reset_container)
+    lateinit var startResetContainer: View
+    @BindView(R.id.fragment_stopwatch_pause_container)
+    lateinit var pauseContainer: View
 
     private lateinit var presenter: StopwatchContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_stopwatch, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d(TAG, "onViewCreated()")
 
         ButterKnife.bind(this, view)
         setPresenter(StopwatchPresenter(this, eventBus, stopwatchService as StopwatchManager,
-            stopwatchService as StopwatchService))
+                stopwatchService as StopwatchService))
 
         startButton.setOnClickListener { presenter.onStopwatchStartClicked() }
         pauseButton.setOnClickListener { presenter.onStopwatchPauseClicked() }
         resetButton.setOnClickListener { presenter.onStopwatchResetClicked() }
     }
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         updateTimer = Timer()
 
@@ -59,28 +68,34 @@ class StopwatchFragment : BaseFragment(), StopwatchContract.View {
         updateTimer.scheduleAtFixedRate(updateText, 0, UPDATE_DELAY)
     }
 
-    override fun onPause() {
+    override fun onPause()
+    {
         super.onPause()
         presenter.onPause()
         updateTimer.cancel()
     }
 
-    override fun setPresenter(presenter: StopwatchContract.Presenter) {
+    override fun setPresenter(presenter: StopwatchContract.Presenter)
+    {
         this.presenter = presenter
     }
 
-    override fun showStartResetButtons() {
+    override fun showStartResetButtons()
+    {
         startResetContainer.visibility = View.VISIBLE
         pauseContainer.visibility = View.GONE
     }
 
-    override fun showPauseButton() {
+    override fun showPauseButton()
+    {
         startResetContainer.visibility = View.GONE
         pauseContainer.visibility = View.VISIBLE
     }
 
-    private val updateText = object : TimerTask() {
-        override fun run() {
+    private val updateText = object: TimerTask()
+    {
+        override fun run()
+        {
             activity?.runOnUiThread { timeElapsedText.text = presenter.getStopwatchTimeElapsed() }
         }
     }

@@ -2,7 +2,8 @@ package com.danielbostwick.stopwatch.ext
 
 import org.joda.time.Duration
 
-fun Duration.toTimeElapsedString(): String {
+fun Duration.toTimeElapsedString(): String
+{
     val hours = this.standardHours
     val minutes = this.standardMinutes
     val seconds = this.standardSeconds
