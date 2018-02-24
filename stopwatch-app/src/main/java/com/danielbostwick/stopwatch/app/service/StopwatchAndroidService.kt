@@ -5,7 +5,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
-import android.util.Log
+import android.os.IBinder
 import com.danielbostwick.stopwatch.R
 import com.danielbostwick.stopwatch.app.StopwatchApplication
 import com.danielbostwick.stopwatch.app.stopwatch.StopwatchActivity
@@ -19,6 +19,7 @@ import com.danielbostwick.stopwatch.core.service.StopwatchService
 import com.danielbostwick.stopwatch.ext.toTimeElapsedString
 import org.joda.time.DateTime
 import org.joda.time.Duration
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
 
 
@@ -26,7 +27,6 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
 {
     private val ONGOING_NOTIFICATION_ID = 100
 
-    private val TAG = StopwatchAndroidService::class.java.simpleName
     private val stopwatchRef: AtomicReference<Stopwatch> = AtomicReference()
     private val stopwatchService = DefaultStopwatchService()
     private var notification: Notification? = null
@@ -35,26 +35,43 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
 
     override fun onCreate()
     {
+        Timber.d("onCreate")
+
         super.onCreate()
-        Log.d(TAG, "onCreate()")
         stopwatchRef.set(stopwatchService.create())
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int
     {
-        Log.d(TAG, "onStartCommand()")
+        Timber.d("onStartCommand [$intent, $flags, $startId]")
+
         return START_STICKY
     }
 
-    override fun onBind(intent: Intent?) = binder
+    override fun onBind(intent: Intent?): IBinder
+    {
+        Timber.d("onBind [$intent]")
 
-    override fun getStopwatch() = stopwatchRef.get()
+        return binder
+    }
 
-    override fun create() = stopwatchService.create()
+    override fun getStopwatch(): Stopwatch
+    {
+        Timber.d("getStopwatch")
+
+        return stopwatchRef.get()
+    }
+
+    override fun create(): Stopwatch
+    {
+        Timber.d("create")
+
+        return stopwatchService.create()
+    }
 
     override fun start(stopwatch: Stopwatch, startedAt: DateTime): Stopwatch
     {
-        Log.d(TAG, "start()")
+        Timber.d("start [$stopwatch, $startedAt]")
 
         val newStopwatch = stopwatchService.start(stopwatch, startedAt)
 
@@ -69,7 +86,7 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
 
     override fun pause(stopwatch: Stopwatch, pausedAt: DateTime): Stopwatch
     {
-        Log.d(TAG, "pause()")
+        Timber.d("pause [$stopwatch, $pausedAt]")
 
         val newStopwatch = stopwatchService.pause(stopwatch, pausedAt)
 
@@ -81,7 +98,7 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
 
     override fun reset(stopwatch: Stopwatch): Stopwatch
     {
-        Log.d(TAG, "reset()")
+        Timber.d("reset [$stopwatch]")
 
         val newStopwatch = stopwatchService.reset(stopwatch)
 
@@ -93,11 +110,16 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
         return newStopwatch
     }
 
-    override fun timeElapsed(stopwatch: Stopwatch, now: DateTime): Duration =
-            stopwatchService.timeElapsed(stopwatch, now)
+    override fun timeElapsed(stopwatch: Stopwatch, now: DateTime): Duration
+    {
+        return stopwatchService.timeElapsed(stopwatch, now)
+    }
+
 
     private fun createNotification(stopwatch: Stopwatch): Notification
     {
+        Timber.d("createNotification [$stopwatch]")
+
         val notificationIntent = Intent(applicationContext, StopwatchActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
         val timeElapsedStr = stopwatchService.timeElapsed(stopwatch, DateTime.now()).toTimeElapsedString()

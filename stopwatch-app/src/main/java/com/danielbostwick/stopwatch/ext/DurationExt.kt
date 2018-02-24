@@ -4,6 +4,8 @@ import org.joda.time.Duration
 
 fun Duration.toTimeElapsedString(): String
 {
+    //Timber.d("toTimeElapsedString")
+
     val hours = this.standardHours
     val minutes = this.standardMinutes
     val seconds = this.standardSeconds

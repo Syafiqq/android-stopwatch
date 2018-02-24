@@ -6,45 +6,50 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.util.Log
 import com.danielbostwick.stopwatch.app.service.StopwatchAndroidService
 import com.google.common.eventbus.EventBus
+import timber.log.Timber
 
 
 class StopwatchApplication: Application()
 {
-    private val TAG = StopwatchApplication::class.java.simpleName
-
     val eventBus = EventBus("stopwatch")
     var stopwatchService: StopwatchAndroidService? = null
 
     override fun onCreate()
     {
+        Timber.d("onCreate")
+
         super.onCreate()
-
-        Log.d(TAG, "onCreate()")
-
+        Timber.plant(Timber.DebugTree())
         StopwatchApplication.instance = this
         bindStopwatchService()
     }
 
-    private fun bindStopwatchService() = bindService(
-            Intent(this, StopwatchAndroidService::class.java),
-            stopwatchServiceConnection,
-            Context.BIND_AUTO_CREATE)
+    private fun bindStopwatchService()
+    {
+        Timber.d("bindStopwatchService")
+
+        bindService(
+                Intent(this, StopwatchAndroidService::class.java),
+                stopwatchServiceConnection,
+                Context.BIND_AUTO_CREATE)
+    }
 
     private val stopwatchServiceConnection = object: ServiceConnection
     {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?)
         {
-            Log.d(TAG, "onServiceConnected() - name:StopwatchAndroidService")
+            Timber.d("onServiceConnected [$name, $service]")
+
             stopwatchService = (service as StopwatchAndroidService.StopwatchServiceBinder).service
             eventBus.post(StopwatchServiceBound())
         }
 
         override fun onServiceDisconnected(name: ComponentName?)
         {
-            Log.d(TAG, "onServiceDisconnected() - name:StopwatchAndroidService")
+            Timber.d("onServiceConnected [$name]")
+
             stopwatchService = null
         }
     }
