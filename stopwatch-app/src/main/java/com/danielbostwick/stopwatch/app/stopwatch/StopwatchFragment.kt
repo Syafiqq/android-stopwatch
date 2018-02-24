@@ -65,7 +65,16 @@ class StopwatchFragment: Fragment(), StopwatchContract.View
         updateTimer = Timer()
 
         presenter.onResume()
-        updateTimer.scheduleAtFixedRate(updateText, 0, UPDATE_DELAY)
+        try
+        {
+            updateTimer.scheduleAtFixedRate(updateText, 0, UPDATE_DELAY)
+        }
+        catch (e: Exception)
+        {
+            updateText = createTimerTask()
+            updateTimer.scheduleAtFixedRate(updateText, 0, UPDATE_DELAY)
+            Log.d(TAG, e.message)
+        }
     }
 
     override fun onPause()
@@ -92,11 +101,16 @@ class StopwatchFragment: Fragment(), StopwatchContract.View
         pauseContainer.visibility = View.VISIBLE
     }
 
-    private val updateText = object: TimerTask()
+    private var updateText = createTimerTask()
+
+    private fun createTimerTask(): TimerTask
     {
-        override fun run()
+        return object: TimerTask()
         {
-            activity?.runOnUiThread { timeElapsedText.text = presenter.getStopwatchTimeElapsed() }
+            override fun run()
+            {
+                activity?.runOnUiThread { timeElapsedText.text = presenter.getStopwatchTimeElapsed() }
+            }
         }
     }
 }
