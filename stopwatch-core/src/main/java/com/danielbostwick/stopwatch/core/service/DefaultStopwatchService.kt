@@ -21,8 +21,7 @@ class DefaultStopwatchService: StopwatchService
     override fun pause(stopwatch: Stopwatch, pausedAt: DateTime) = when (stopwatch.state)
     {
         PAUSED  -> stopwatch
-        STARTED -> Stopwatch(PAUSED, DateTime.now(),
-                newOffset(stopwatch.offset, stopwatch.startedAt, pausedAt))
+        STARTED -> Stopwatch(PAUSED, DateTime.now(), newOffset(stopwatch.offset, stopwatch.startedAt, pausedAt))
     }
 
     override fun reset(stopwatch: Stopwatch) = create()
