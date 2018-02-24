@@ -14,7 +14,8 @@ import com.danielbostwick.stopwatch.app.BaseFragment
 import com.danielbostwick.stopwatch.app.StopwatchApplication
 import com.danielbostwick.stopwatch.core.manager.StopwatchManager
 import com.danielbostwick.stopwatch.core.service.StopwatchService
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 class StopwatchFragment : BaseFragment(), StopwatchContract.View {
     private val TAG = StopwatchFragment::class.java.simpleName
@@ -33,10 +34,8 @@ class StopwatchFragment : BaseFragment(), StopwatchContract.View {
 
     private lateinit var presenter: StopwatchContract.Presenter
 
-    override fun onCreateView(inflater: LayoutInflater?,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View =
-        inflater!!.inflate(R.layout.fragment_stopwatch, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(R.layout.fragment_stopwatch, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,7 +81,7 @@ class StopwatchFragment : BaseFragment(), StopwatchContract.View {
 
     private val updateText = object : TimerTask() {
         override fun run() {
-            activity.runOnUiThread { timeElapsedText.text = presenter.getStopwatchTimeElapsed() }
+            activity?.runOnUiThread { timeElapsedText.text = presenter.getStopwatchTimeElapsed() }
         }
     }
 }
