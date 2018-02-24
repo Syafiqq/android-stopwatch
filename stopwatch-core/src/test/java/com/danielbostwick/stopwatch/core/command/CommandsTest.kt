@@ -4,25 +4,25 @@ import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.danielbostwick.stopwatch.core.model.StopwatchState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.notNullValue
-import org.joda.time.DateTime
 import org.joda.time.Duration
+import org.joda.time.LocalDateTime
 import org.junit.Test
 
 class CommandsTest
 {
-    val stopwatch = Stopwatch(StopwatchState.PAUSED, DateTime.now(), Duration.ZERO)
+    private val stopwatch = Stopwatch(StopwatchState.PAUSED, LocalDateTime.now(), Duration.ZERO)
 
     @Test
     fun stopwatchStartCommandExists()
     {
-        val startCmd = StopwatchStart(stopwatch, DateTime.now())
+        val startCmd = StopwatchStart(stopwatch, LocalDateTime.now())
         assertThat(startCmd, notNullValue())
     }
 
     @Test
     fun stopwatchPauseCommandExists()
     {
-        val pauseCmd = StopwatchPause(stopwatch, DateTime.now())
+        val pauseCmd = StopwatchPause(stopwatch, LocalDateTime.now())
         assertThat(pauseCmd, notNullValue())
     }
 
