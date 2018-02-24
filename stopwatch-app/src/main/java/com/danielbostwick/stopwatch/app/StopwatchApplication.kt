@@ -3,6 +3,7 @@ package com.danielbostwick.stopwatch.app
 import android.app.Application
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
@@ -28,7 +29,7 @@ class StopwatchApplication: Application()
     }
 
     private fun bindStopwatchService() = bindService(
-            Intents.StopwatchAndroidService.create(this),
+            Intent(this, StopwatchAndroidService::class.java),
             stopwatchServiceConnection,
             Context.BIND_AUTO_CREATE)
 

@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.Binder
 import android.util.Log
 import com.danielbostwick.stopwatch.R
-import com.danielbostwick.stopwatch.app.Intents
 import com.danielbostwick.stopwatch.app.StopwatchApplication
+import com.danielbostwick.stopwatch.app.stopwatch.StopwatchActivity
 import com.danielbostwick.stopwatch.core.event.StopwatchPaused
 import com.danielbostwick.stopwatch.core.event.StopwatchStarted
 import com.danielbostwick.stopwatch.core.event.StopwatchWasReset
@@ -98,7 +98,7 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
 
     private fun createNotification(stopwatch: Stopwatch): Notification
     {
-        val notificationIntent = Intents.Stopwatch.create(applicationContext)
+        val notificationIntent = Intent(applicationContext, StopwatchActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
         val timeElapsedStr = stopwatchService.timeElapsed(stopwatch, DateTime.now()).toTimeElapsedString()
 
