@@ -1,6 +1,7 @@
 package com.danielbostwick.stopwatch.app.stopwatch
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,13 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.danielbostwick.stopwatch.R
-import com.danielbostwick.stopwatch.app.BaseFragment
 import com.danielbostwick.stopwatch.app.StopwatchApplication
 import com.danielbostwick.stopwatch.core.manager.StopwatchManager
 import com.danielbostwick.stopwatch.core.service.StopwatchService
 import java.util.Timer
 import java.util.TimerTask
 
-class StopwatchFragment: BaseFragment(), StopwatchContract.View
+class StopwatchFragment: Fragment(), StopwatchContract.View
 {
     private val TAG = StopwatchFragment::class.java.simpleName
     private val UPDATE_DELAY: Long = 100

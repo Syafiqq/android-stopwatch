@@ -1,14 +1,14 @@
 package com.danielbostwick.stopwatch.app.stopwatch
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.danielbostwick.stopwatch.R
-import com.danielbostwick.stopwatch.app.BaseActivity
 import com.danielbostwick.stopwatch.app.StopwatchApplication
 import com.danielbostwick.stopwatch.app.StopwatchServiceBound
 import com.google.common.eventbus.Subscribe
 
-class StopwatchActivity: BaseActivity()
+class StopwatchActivity: AppCompatActivity()
 {
     private val TAG = StopwatchActivity::class.java.simpleName
     private val eventBus = StopwatchApplication.instance.eventBus
