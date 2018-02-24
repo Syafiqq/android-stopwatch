@@ -5,13 +5,13 @@ import com.danielbostwick.stopwatch.core.model.StopwatchState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.notNullValue
+import org.joda.time.DateTime
 import org.joda.time.Duration
-import org.joda.time.LocalDateTime
 import org.junit.Test
 
 class EventsTest
 {
-    private val stopwatch = Stopwatch(StopwatchState.PAUSED, LocalDateTime.now(), Duration.ZERO)
+    private val stopwatch = Stopwatch(StopwatchState.PAUSED, DateTime.now(), Duration.ZERO)
 
     @Test
     fun stopwatchStartedEventExists()
