@@ -1,10 +1,13 @@
 package com.danielbostwick.stopwatch.app
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.IBinder
 import com.danielbostwick.stopwatch.app.service.StopwatchAndroidService
 import com.google.common.eventbus.EventBus
@@ -19,7 +22,14 @@ class StopwatchApplication: Application()
     override fun onCreate()
     {
         Timber.d("onCreate")
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            val channelId = "android-stopwatch"
+            val channelName = "stopwatch"
+            getSystemService(NotificationManager::class.java).run {
+                this?.createNotificationChannel(NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH))
+            }
+        }
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         StopwatchApplication.instance = this

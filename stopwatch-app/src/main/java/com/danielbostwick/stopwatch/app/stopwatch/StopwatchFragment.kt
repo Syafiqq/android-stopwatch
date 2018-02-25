@@ -36,8 +36,7 @@ class StopwatchFragment: Fragment(), StopwatchContract.View
         Timber.d("onViewCreated [$view, $state]")
 
         super.onViewCreated(view, state)
-        setPresenter(StopwatchPresenter(this, eventBus, stopwatchService as StopwatchManager,
-                stopwatchService as StopwatchService))
+        setPresenter(StopwatchPresenter(this, eventBus, stopwatchService as StopwatchManager, stopwatchService as StopwatchService))
 
         fragment_stopwatch_start.setOnClickListener { presenter.onStopwatchStartClicked() }
         fragment_stopwatch_pause.setOnClickListener { presenter.onStopwatchPauseClicked() }

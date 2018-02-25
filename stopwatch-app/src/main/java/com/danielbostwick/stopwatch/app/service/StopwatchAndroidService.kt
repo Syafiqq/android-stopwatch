@@ -6,6 +6,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.TaskStackBuilder
 import com.danielbostwick.stopwatch.R
 import com.danielbostwick.stopwatch.app.StopwatchApplication
 import com.danielbostwick.stopwatch.app.stopwatch.StopwatchActivity
@@ -120,13 +122,17 @@ class StopwatchAndroidService: Service(), StopwatchService, StopwatchManager
     {
         Timber.d("createNotification [$stopwatch]")
 
-        val notificationIntent = Intent(applicationContext, StopwatchActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        val notificationIntent = Intent(this, StopwatchActivity::class.java)
+        val stackBuilder = TaskStackBuilder.create(this)
+        stackBuilder.addNextIntent(notificationIntent)
+        val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
         val timeElapsedStr = stopwatchService.timeElapsed(stopwatch, DateTime.now()).toTimeElapsedString()
 
-        return Notification.Builder(this)
+        return NotificationCompat.Builder(this, "stopwatch")
+                .setSmallIcon(R.drawable.abc_textfield_search_material)
                 .setContentTitle(getText(R.string.notification_title))
                 .setContentText(timeElapsedStr)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .build()
     }
