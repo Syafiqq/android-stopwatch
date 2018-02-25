@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
+import org.joda.time.Duration
 import timber.log.Timber
 
 /**
@@ -20,7 +21,7 @@ import timber.log.Timber
  */
 class App: Application()
 {
-    var stopwatchService: StopwatchService? = null
+    val stopwatchService: OStopwatchService = OStopwatchService()
 
     override fun onCreate()
     {
@@ -53,14 +54,14 @@ class App: Application()
         {
             Timber.d("onServiceConnected [$name, $service]")
 
-            stopwatchService = (service as StopwatchService.StopwatchServiceBinder).service
+            stopwatchService.set((service as StopwatchService.StopwatchServiceBinder).service)
         }
 
         override fun onServiceDisconnected(name: ComponentName?)
         {
             Timber.d("onServiceConnected [$name]")
 
-            stopwatchService = null
+            stopwatchService.set(null)
         }
     }
 
@@ -68,4 +69,9 @@ class App: Application()
     {
         lateinit var instance: App
     }
+}
+
+fun Duration.toTimeElapsedString(): String
+{
+    return this.millis.toString()
 }
