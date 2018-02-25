@@ -29,7 +29,7 @@ class StopwatchService: Service()
         Timber.d("onCreate")
 
         super.onCreate()
-        (0..4).forEach { stopwatches.set(it, create()) }
+        (0..3).forEach { stopwatches.set(it, create()) }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int
