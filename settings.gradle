@@ -1,1 +1,1 @@
-include ':stopwatch-app', ':stopwatch-core'
+include ':stopwatch-app', ':stopwatch-core', ':stopwatch-ex-1'
