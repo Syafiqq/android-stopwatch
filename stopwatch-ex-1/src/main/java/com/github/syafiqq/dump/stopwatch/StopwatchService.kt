@@ -95,7 +95,7 @@ class StopwatchService: Service()
 
     fun timeElapsed(stopwatch: Stopwatch, now: DateTime, index: Int = 0): Duration
     {
-        Timber.d("reset [$stopwatch, $index]")
+        Timber.d("timeElapsed [$stopwatch, $index]")
 
         return stopwatchService.timeElapsed(stopwatch, now)
     }
