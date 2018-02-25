@@ -82,14 +82,14 @@
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/counter"
+                    android:id="@+id/counter2"
                     android:layout_weight="1"/>
 
             <TextView
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/lap"
+                    android:id="@+id/lap2"
                     android:layout_weight="1"/>
 
         </TableRow>
@@ -120,14 +120,14 @@
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/counter2"
+                    android:id="@+id/counter3"
                     android:layout_weight="1"/>
 
             <TextView
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/lap2"
+                    android:id="@+id/lap3"
                     android:layout_weight="1"/>
 
         </TableRow>
@@ -158,14 +158,14 @@
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/counter3"
+                    android:id="@+id/counter4"
                     android:layout_weight="1"/>
 
             <TextView
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/lap3"
+                    android:id="@+id/lap4"
                     android:layout_weight="1"/>
         </TableRow>
 
