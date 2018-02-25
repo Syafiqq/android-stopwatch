@@ -104,7 +104,7 @@ class StopwatchService: Service()
     {
         Timber.d("createNotification")
 
-        val notificationIntent = Intent(this, MainActivity::class.java)
+        val notificationIntent = Intent(this, StopwatchActiviy::class.java)
         val stackBuilder = TaskStackBuilder.create(this).apply {
             this.addNextIntent(notificationIntent)
         }
